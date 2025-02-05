@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gadget>
+  <name>Flip Down Clock</name>
+  <namespace>windows.sdk</namespace>
+  <version>0.1.0.3</version>
+  <author name="Studio M">
+    <info url="www.studiom.at" />
+    <logo src="css/logo.png" />
+  </author>
+  <copyright>&#169; Studio M Mayrhofer &amp; Partner GesmbH</copyright>
+  <description>Flip Down Clock </description>
+  <icons>
+    <icon height="48" width="48" src="css/flipicon.jpg" />
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="Clock.html" />
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="1.0" />
+      <defaultImage src="icon.png" />
+    </host>
+  </hosts>
+</gadget>
