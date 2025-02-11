@@ -1,15 +1,23 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Hallo Welt!</title>
-<link href="css/style.css" type="text/css" rel="stylesheet" id="stylesheet" />
-<script src="js/local.js"></script>
-<script src="js/gadget.js"></script>
-<script src="js/alert.vbs" type="text/vbscript"></script>
-<script src="js/js.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body onload="start();">
-<g:background id="bg"  style="position:absolute; z-index:-1; left:0px; top:0px">
-<div id="f"><img onclick='javascript:showFlyout();' id="m_img" name="http://wetter.msn.com" src="img/blank.png" width="60" height="50" border="0" alt="" title="" /></div>         
-</g:background> 
+<body>
+    <h1>Tetris</h1>
+    <div id="game-container">
+        <div id="game-board"></div>
+        <div id="controls">
+            <button id="move-left">Left</button>
+            <button id="move-right">Right</button>
+            <button id="rotate">Rotate</button>
+            <button id="move-down">Down</button>
+            <button id="pause">Pause</button>
+        </div>
+    </div>
+    <script src="tetris.js"></script>
 </body>
 </html>
