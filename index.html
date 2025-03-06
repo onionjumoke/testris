@@ -1,23 +1,477 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetris Game</title>
-    <link rel="stylesheet" href="styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>iOS 6 Tetris</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: center;
+  background: url('data:image/png;base64,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');
+  color: #000;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+/* iOS 6 style header bar */
+.header-bar {
+  background: -webkit-gradient(linear, left top, left bottom, from(#b0bccd), to(#889bb3));
+  background: linear-gradient(to bottom, #b0bccd, #889bb3);
+  height: 44px;
+  width: 100%;
+  border-bottom: 1px solid #2d3642;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+  color: #4c566c;
+}
+
+.game-container {
+  margin: 10px auto;
+  width: 300px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  border: 1px solid #a9a9a9;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  padding: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #666;
+}
+
+td {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #222;
+  background-color: #111;
+}
+
+.score-container {
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddee1), to(#babbbc));
+  background: linear-gradient(to bottom, #dddee1, #babbbc);
+  border: 1px solid #999;
+  border-radius: 8px;
+  margin: 10px auto;
+  padding: 5px 10px;
+  width: 80%;
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.score {
+  margin: 5px auto;
+  font-size: 18px;
+  font-weight: bold;
+  color: #444;
+  text-shadow: 0 1px 0 #fff;
+}
+
+/* iOS 6 style buttons */
+.controls {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 10px;
+}
+
+.btn {
+  width: 70px;
+  height: 45px;
+  margin: 5px;
+  font-size: 20px;
+  border-radius: 8px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f4f5f7), to(#c2c3c5));
+  background: linear-gradient(to bottom, #f4f5f7, #c2c3c5);
+  border: 1px solid #9e9e9e;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+  font-weight: bold;
+  color: #4c566c;
+  -webkit-appearance: none;
+  position: relative;
+}
+
+.btn:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: rgba(255,255,255,0.2);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.btn:active {
+  background: -webkit-gradient(linear, left top, left bottom, from(#c2c3c5), to(#f4f5f7));
+  background: linear-gradient(to bottom, #c2c3c5, #f4f5f7);
+}
+
+.notice {
+  color: #666;
+  font-size: 14px;
+  margin: 10px;
+  text-shadow: 0 1px 0 white;
+}
+
+/* iOS 6 style pieces */
+.piece-I { background-color: #5ad6fb; border: 1px solid #4aa7c5; }
+.piece-O { background-color: #fdf174; border: 1px solid #c7bc5b; }
+.piece-T { background-color: #ce68fc; border: 1px solid #a453c9; }
+.piece-S { background-color: #78df65; border: 1px solid #60b251; }
+.piece-Z { background-color: #ff5e5e; border: 1px solid #cc4b4b; }
+.piece-J { background-color: #6091ff; border: 1px solid #4d74cc; }
+.piece-L { background-color: #ffb052; border: 1px solid #cc8d42; }
+</style>
 </head>
 <body>
-    <h1>Tetris</h1>
-    <div id="game-container">
-        <div id="game-board"></div>
-        <div id="controls">
-            <button id="move-left">Left</button>
-            <button id="move-right">Right</button>
-            <button id="rotate">Rotate</button>
-            <button id="move-down">Down</button>
-            <button id="pause">Pause</button>
-        </div>
-    </div>
-    <script src="tetris.js"></script>
+
+<!-- iOS 6 Header Bar -->
+<div class="header-bar">
+  <h1>Tetris</h1>
+</div>
+
+<div class="game-container">
+  <div class="score-container">
+    <div class="score">Score: <span id="score">0</span></div>
+  </div>
+
+  <table id="board">
+    <!-- Rows will be generated by CSS -->
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<div class="controls">
+  <button id="left" class="btn" onclick="location.href='#left'">←</button>
+  <button id="rotate" class="btn" onclick="location.href='#rotate'">↻</button>
+  <button id="right" class="btn" onclick="location.href='#right'">→</button>
+  <button id="down" class="btn" onclick="location.href='#down'">↓</button>
+  <button id="drop" class="btn" onclick="location.href='#drop'">Drop</button>
+</div>
+
+<p class="notice">Refresh to restart game</p>
+
+<script>
+// Initialize game variables
+let board = Array(20).fill().map(() => Array(10).fill(0));
+let currentPiece = null;
+let currentX = 0;
+let currentY = 0;
+let score = 0;
+let gameOver = false;
+let gameInterval;
+
+// Define the shapes
+const SHAPES = {
+  'I': { blocks: [[0,0], [0,1], [0,2], [0,3]], color: 'piece-I' },
+  'O': { blocks: [[0,0], [0,1], [1,0], [1,1]], color: 'piece-O' },
+  'T': { blocks: [[0,1], [1,0], [1,1], [1,2]], color: 'piece-T' },
+  'S': { blocks: [[0,1], [0,2], [1,0], [1,1]], color: 'piece-S' },
+  'Z': { blocks: [[0,0], [0,1], [1,1], [1,2]], color: 'piece-Z' },
+  'J': { blocks: [[0,0], [1,0], [1,1], [1,2]], color: 'piece-J' },
+  'L': { blocks: [[0,2], [1,0], [1,1], [1,2]], color: 'piece-L' }
+};
+
+// Game initialization
+function init() {
+  document.getElementById('score').textContent = '0';
+  // Automatically start the game
+  startGame();
+  
+  // Handle URL hash changes for controls
+  window.onhashchange = function() {
+    const hash = window.location.hash;
+    if (hash === '#left') moveLeft();
+    else if (hash === '#right') moveRight();
+    else if (hash === '#down') moveDown();
+    else if (hash === '#rotate') rotate();
+    else if (hash === '#drop') hardDrop();
+    window.location.hash = '';
+  };
+  
+  // Keyboard controls
+  document.addEventListener('keydown', function(e) {
+    if (e.keyCode === 37) moveLeft();
+    else if (e.keyCode === 39) moveRight();
+    else if (e.keyCode === 40) moveDown();
+    else if (e.keyCode === 38) rotate();
+    else if (e.keyCode === 32) hardDrop();
+  });
+}
+
+function startGame() {
+  // Reset game state
+  board = Array(20).fill().map(() => Array(10).fill(0));
+  currentPiece = null;
+  currentX = 0;
+  currentY = 0;
+  score = 0;
+  gameOver = false;
+  document.getElementById('score').textContent = '0';
+  
+  // Create the first piece
+  newPiece();
+  
+  // Clear any existing interval and start a new one
+  if (gameInterval) clearInterval(gameInterval);
+  gameInterval = setInterval(tick, 500);
+}
+
+function newPiece() {
+  const pieces = Object.keys(SHAPES);
+  const randomType = pieces[Math.floor(Math.random() * pieces.length)];
+  currentPiece = {
+    type: randomType,
+    blocks: SHAPES[randomType].blocks.map(block => [...block]),
+    color: SHAPES[randomType].color
+  };
+  
+  currentX = Math.floor(5 - currentPiece.blocks[0].length / 2);
+  currentY = 0;
+  
+  if (!isValidMove(0, 0)) {
+    gameOver = true;
+    
+    // iOS 6 style alert (using the native alert for simplicity)
+    alert('Game Over! Score: ' + score + '\nRefresh to play again.');
+    clearInterval(gameInterval);
+  }
+  
+  draw();
+}
+
+function isValidMove(offsetX, offsetY, newBlocks = currentPiece.blocks) {
+  return newBlocks.every(block => {
+    const x = currentX + block[1] + offsetX;
+    const y = currentY + block[0] + offsetY;
+    return (
+      x >= 0 && x < 10 && y >= 0 && y < 20 &&
+      (y < 0 || board[y][x] === 0)
+    );
+  });
+}
+
+function rotate() {
+  if (gameOver) return;
+  
+  const newBlocks = currentPiece.blocks.map(block => {
+    // For simplicity, we're using a basic rotation
+    return [block[1], -block[0]];
+  });
+  
+  if (isValidMove(0, 0, newBlocks)) {
+    currentPiece.blocks = newBlocks;
+    draw();
+  }
+}
+
+function moveLeft() {
+  if (gameOver) return;
+  if (isValidMove(-1, 0)) {
+    currentX--;
+    draw();
+  }
+}
+
+function moveRight() {
+  if (gameOver) return;
+  if (isValidMove(1, 0)) {
+    currentX++;
+    draw();
+  }
+}
+
+function moveDown() {
+  if (gameOver) return;
+  if (isValidMove(0, 1)) {
+    currentY++;
+    draw();
+    return true;
+  }
+  
+  // The piece has landed
+  placePiece();
+  return false;
+}
+
+function hardDrop() {
+  if (gameOver) return;
+  while (moveDown()) {}
+}
+
+function placePiece() {
+  currentPiece.blocks.forEach(block => {
+    const x = currentX + block[1];
+    const y = currentY + block[0];
+    if (y >= 0 && y < 20) {
+      board[y][x] = currentPiece.color;
+    }
+  });
+  
+  // Check for completed lines
+  clearLines();
+  newPiece();
+}
+
+function clearLines() {
+  let linesCleared = 0;
+  
+  for (let y = 0; y < 20; y++) {
+    if (board[y].every(cell => cell !== 0)) {
+      board.splice(y, 1);
+      board.unshift(Array(10).fill(0));
+      linesCleared++;
+    }
+  }
+  
+  if (linesCleared > 0) {
+    score += [40, 100, 300, 1200][linesCleared - 1];
+    document.getElementById('score').textContent = score;
+  }
+}
+
+function tick() {
+  if (gameOver) return;
+  moveDown();
+}
+
+function draw() {
+  // Clear the visual board
+  document.querySelectorAll('#board td').forEach(cell => {
+    cell.className = '';
+  });
+  
+  // Draw the static blocks
+  for (let y = 0; y < 20; y++) {
+    for (let x = 0; x < 10; x++) {
+      if (board[y][x] !== 0) {
+        const cell = document.querySelector(`#board tr:nth-child(${y + 1}) td:nth-child(${x + 1})`);
+        cell.className = board[y][x];
+      }
+    }
+  }
+  
+  // Draw the current piece
+  currentPiece.blocks.forEach(block => {
+    const x = currentX + block[1];
+    const y = currentY + block[0];
+    if (y >= 0 && y < 20) {
+      const cell = document.querySelector(`#board tr:nth-child(${y + 1}) td:nth-child(${x + 1})`);
+      cell.className = currentPiece.color;
+    }
+  });
+}
+
+// Start the game as soon as the page loads
+document.addEventListener("DOMContentLoaded", init);
+// Backup automatic start (if DOM content loaded doesn't work in older browsers)
+if (document.readyState === "complete" || document.readyState === "interactive") {
+  setTimeout(init, 1);
+} else {
+  window.onload = init;
+}
+</script>
+
+<!-- Fallback for no-JavaScript environments -->
+<noscript>
+<style>
+/* Show an informative message when JavaScript is disabled */
+.js-notice {
+  display: block;
+  margin: 20px;
+  padding: 10px;
+  border: 2px solid #f00;
+  background: #fee;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+</style>
+<div class="js-notice">
+  <p>The full Tetris experience requires JavaScript for smooth gameplay.</p>
+  <p>However, you can still use the button controls below which will work through URL hash navigation.</p>
+  <p>Note: Page will refresh after each move in no-JavaScript mode.</p>
+</div>
+</noscript>
+
 </body>
 </html>
