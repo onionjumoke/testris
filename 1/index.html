@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>iOS 3 Tetris</title>
+<style>
+body{margin:0;padding:0;font-family:Helvetica,Arial,sans-serif;text-align:center;background:#d8d8d8;color:#000;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-user-select:none}
+.header-bar{background:-webkit-gradient(linear,left top,left bottom,from(#b0bccd),to(#889bb3));height:44px;width:100%;border-bottom:1px solid #2d3642;-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.2);position:relative}
+.header-bar h1{line-height:44px;margin:0;font-size:20px;font-weight:bold;text-shadow:0 1px 0 rgba(255,255,255,0.5);color:#4c566c}
+.game-container{margin:10px auto;width:300px;position:relative;background:rgba(255,255,255,0.8);-webkit-border-radius:10px;border:1px solid #a9a9a9;-webkit-box-shadow:0 1px 4px rgba(0,0,0,0.3);padding:10px}
+table{border-collapse:collapse;margin:0 auto;background:#000;-webkit-border-radius:6px;overflow:hidden;border:1px solid #666}
+td{width:20px;height:20px;border:1px solid #222;background-color:#111}
+.score-container{background:-webkit-gradient(linear,left top,left bottom,from(#dddee1),to(#babbbc));border:1px solid #999;-webkit-border-radius:8px;margin:10px auto;padding:5px 10px;width:80%}
+.score{margin:5px auto;font-size:18px;font-weight:bold;color:#444;text-shadow:0 1px 0 #fff}
+.controls{margin-top:15px;text-align:center;padding:0 10px}
+.btn{width:70px;height:45px;margin:5px;font-size:20px;-webkit-border-radius:8px;background:-webkit-gradient(linear,left top,left bottom,from(#f4f5f7),to(#c2c3c5));border:1px solid #9e9e9e;text-shadow:0 1px 0 rgba(255,255,255,0.7);font-weight:bold;color:#4c566c;-webkit-appearance:none}
+.btn:active{background:-webkit-gradient(linear,left top,left bottom,from(#c2c3c5),to(#f4f5f7))}
+.notice{color:#666;font-size:14px;margin:10px;text-shadow:0 1px 0 white}
+/* Skeuomorphic pieces */
+.piece-I{background:-webkit-gradient(linear,left top,left bottom,from(#7ee0ff),to(#39ccff));border:1px solid #4aa7c5}
+.piece-O{background:-webkit-gradient(linear,left top,left bottom,from(#fffd94),to(#fceb54));border:1px solid #c7bc5b}
+.piece-T{background:-webkit-gradient(linear,left top,left bottom,from(#de8aff),to(#be46fc));border:1px solid #a453c9}
+.piece-S{background:-webkit-gradient(linear,left top,left bottom,from(#98eb8a),to(#58d340));border:1px solid #60b251}
+.piece-Z{background:-webkit-gradient(linear,left top,left bottom,from(#ff8080),to(#ff3c3c));border:1px solid #cc4b4b}
+.piece-J{background:-webkit-gradient(linear,left top,left bottom,from(#80a9ff),to(#4078ff));border:1px solid #4d74cc}
+.piece-L{background:-webkit-gradient(linear,left top,left bottom,from(#ffc073),to(#ff9a31));border:1px solid #cc8d42}
+.game-over {position:absolute; top:50%; left:50%; width:200px; margin-left:-100px; background:rgba(0,0,0,0.8); color:white; padding:20px; -webkit-border-radius:10px; display:none; font-size:18px; font-weight:bold;}
+</style>
+</head>
+<body ontouchstart="if(this.getAttribute('data-started')!=='true'){startGame();this.setAttribute('data-started','true')}">
+
+<!-- iOS 3 Header Bar -->
+<div class="header-bar">
+  <h1>Tetris</h1>
+</div>
+
+<div class="game-container">
+  <div class="score-container">
+    <div class="score">Score: <span id="score">0</span></div>
+  </div>
+
+  <table id="board">
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </table>
+  
+  <div id="gameOver" class="game-over">
+    Game Over!<br>
+    Score: <span id="finalScore">0</span><br><br>
+    Tap anywhere to restart
+  </div>
+</div>
+
+<div class="controls">
+  <button id="left" class="btn" ontouchstart="moveLeft(); event.preventDefault();">←</button>
+  <button id="rotate" class="btn" ontouchstart="rotate(); event.preventDefault();">↻</button>
+  <button id="right" class="btn" ontouchstart="moveRight(); event.preventDefault();">→</button>
+  <button id="down" class="btn" ontouchstart="moveDown(); event.preventDefault();">↓</button>
+  <button id="drop" class="btn" ontouchstart="hardDrop(); event.preventDefault();">Drop</button>
+</div>
+
+<p class="notice">Tap anywhere to start/restart</p>
+
+<script>
+// Initialize game variables - made compatible with iOS 3
+var board = [];
+var currentPiece = null;
+var currentX = 0;
+var currentY = 0;
+var score = 0;
+var gameOver = false;
+var gameTimer = null;
+
+// Initialize the board
+for (var i = 0; i < 20; i++) {
+  board[i] = [];
+  for (var j = 0; j < 10; j++) {
+    board[i][j] = 0;
+  }
+}
+
+// Define the shapes
+var SHAPES = {
+  'I': {
+    blocks: [[0,0], [0,1], [0,2], [0,3]],
+    color: 'piece-I'
+  },
+  'O': {
+    blocks: [[0,0], [0,1], [1,0], [1,1]],
+    color: 'piece-O'
+  },
+  'T': {
+    blocks: [[0,1], [1,0], [1,1], [1,2]],
+    color: 'piece-T'
+  },
+  'S': {
+    blocks: [[0,1], [0,2], [1,0], [1,1]],
+    color: 'piece-S'
+  },
+  'Z': {
+    blocks: [[0,0], [0,1], [1,1], [1,2]],
+    color: 'piece-Z'
+  },
+  'J': {
+    blocks: [[0,0], [1,0], [1,1], [1,2]],
+    color: 'piece-J'
+  },
+  'L': {
+    blocks: [[0,2], [1,0], [1,1], [1,2]],
+    color: 'piece-L'
+  }
+};
+
+// Simplified getElement function for iOS 3
+function getEl(id) {
+  return document.getElementById(id);
+}
+
+// Start or restart the game
+function startGame() {
+  // Reset game state
+  for (var i = 0; i < 20; i++) {
+    for (var j = 0; j < 10; j++) {
+      board[i][j] = 0;
+    }
+  }
+  
+  currentPiece = null;
+  currentX = 0;
+  currentY = 0;
+  score = 0;
+  gameOver = false;
+  getEl('score').innerHTML = '0';
+  getEl('gameOver').style.display = 'none';
+  
+  // Clear all cells
+  var cells = document.getElementsByTagName('td');
+  for (var i = 0; i < cells.length; i++) {
+    cells[i].className = '';
+  }
+  
+  // Create the first piece
+  newPiece();
+  
+  // Clear any existing timer and start a new one
+  if (gameTimer) {
+    clearInterval(gameTimer);
+  }
+  gameTimer = setInterval(tick, 500);
+}
+
+// Game tick - move the current piece down
+function tick() {
+  if (gameOver) return;
+  
+  if (!moveDown()) {
+    // The piece has landed
+    placePiece();
+  }
+}
+
+// Create a new random piece
+function newPiece() {
+  var pieceTypes = ['I', 'O', 'T', 'S', 'Z', 'J', 'L'];
+  var randomType = pieceTypes[Math.floor(Math.random() * pieceTypes.length)];
+  
+  var blocks = [];
+  for (var i = 0; i < SHAPES[randomType].blocks.length; i++) {
+    blocks.push([
+      SHAPES[randomType].blocks[i][0],
+      SHAPES[randomType].blocks[i][1]
+    ]);
+  }
+  
+  currentPiece = {
+    type: randomType,
+    blocks: blocks,
+    color: SHAPES[randomType].color
+  };
+  
+  currentX = Math.floor(5 - 2/2);
+  currentY = 0;
+  
+  if (!isValidMove(0, 0)) {
+    gameOver = true;
+    clearInterval(gameTimer);
+    getEl('finalScore').innerHTML = score;
+    getEl('gameOver').style.display = 'block';
+  }
+  
+  draw();
+}
+
+// Check if the move is valid
+function isValidMove(offsetX, offsetY, newBlocks) {
+  var blocks = newBlocks || currentPiece.blocks;
+  
+  for (var i = 0; i < blocks.length; i++) {
+    var block = blocks[i];
+    var x = currentX + block[1] + offsetX;
+    var y = currentY + block[0] + offsetY;
+    
+    if (x < 0 || x >= 10 || y >= 20) return false;
+    if (y >= 0 && board[y][x] !== 0) return false;
+  }
+  
+  return true;
+}
+
+// Rotate the current piece
+function rotate() {
+  if (gameOver) return;
+  
+  var newBlocks = [];
+  for (var i = 0; i < currentPiece.blocks.length; i++) {
+    var block = currentPiece.blocks[i];
+    newBlocks.push([block[1], -block[0]]);
+  }
+  
+  if (isValidMove(0, 0, newBlocks)) {
+    currentPiece.blocks = newBlocks;
+    draw();
+  }
+}
+
+// Move the piece left
+function moveLeft() {
+  if (gameOver) return;
+  
+  if (isValidMove(-1, 0)) {
+    currentX--;
+    draw();
+  }
+}
+
+// Move the piece right
+function moveRight() {
+  if (gameOver) return;
+  
+  if (isValidMove(1, 0)) {
+    currentX++;
+    draw();
+  }
+}
+
+// Move the piece down
+function moveDown() {
+  if (gameOver) return;
+  
+  if (isValidMove(0, 1)) {
+    currentY++;
+    draw();
+    return true;
+  }
+  
+  return false;
+}
+
+// Hard drop the piece
+function hardDrop() {
+  if (gameOver) return;
+  
+  while (moveDown()) {
+    // Keep moving down until we can't
+  }
+}
+
+// Place the piece on the board
+function placePiece() {
+  for (var i = 0; i < currentPiece.blocks.length; i++) {
+    var block = currentPiece.blocks[i];
+    var x = currentX + block[1];
+    var y = currentY + block[0];
+    
+    if (y >= 0 && y < 20) {
+      board[y][x] = currentPiece.color;
+    }
+  }
+  
+  clearLines();
+  newPiece();
+}
+
+// Clear completed lines
+function clearLines() {
+  var linesCleared = 0;
+  
+  for (var y = 0; y < 20; y++) {
+    var lineComplete = true;
+    
+    for (var x = 0; x < 10; x++) {
+      if (board[y][x] === 0) {
+        lineComplete = false;
+        break;
+      }
+    }
+    
+    if (lineComplete) {
+      // Move all lines above down
+      for (var y2 = y; y2 > 0; y2--) {
+        for (var x = 0; x < 10; x++) {
+          board[y2][x] = board[y2-1][x];
+        }
+      }
+      
+      // Clear the top line
+      for (var x = 0; x < 10; x++) {
+        board[0][x] = 0;
+      }
+      
+      linesCleared++;
+    }
+  }
+  
+  if (linesCleared > 0) {
+    // Calculate score
+    var points = 0;
+    switch (linesCleared) {
+      case 1: points = 40; break;
+      case 2: points = 100; break;
+      case 3: points = 300; break;
+      case 4: points = 1200; break;
+    }
+    
+    score += points;
+    getEl('score').innerHTML = score;
+  }
+}
+
+// Draw the current game state
+function draw() {
+  // Clear the board
+  var cells = document.getElementsByTagName('td');
+  for (var i = 0; i < cells.length; i++) {
+    var y = Math.floor(i / 10);
+    var x = i % 10;
+    
+    cells[i].className = board[y][x] || '';
+  }
+  
+  // Draw the current piece
+  if (currentPiece) {
+    for (var i = 0; i < currentPiece.blocks.length; i++) {
+      var block = currentPiece.blocks[i];
+      var x = currentX + block[1];
+      var y = currentY + block[0];
+      
+      if (y >= 0 && y < 20 && x >= 0 && x < 10) {
+        var cellIndex = y * 10 + x;
+        cells[cellIndex].className = currentPiece.color;
+      }
+    }
+  }
+}
+</script>
+</body>
+</html>
